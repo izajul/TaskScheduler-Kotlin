@@ -8,12 +8,12 @@ import java.util.*
 @Entity(tableName = "tasks_table")
 data class TaskModel(
     @ColumnInfo(name = "package")
-    val packageName: String,
+    var packageName: String,
     @ColumnInfo(name = "done_status")
-    val doneStatus: Boolean,
+    var doneStatus: Boolean,
     @ColumnInfo(name = "schedule_status")
-    val status: Boolean,
-    val time: String
+    var status: Boolean,
+    var time: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
