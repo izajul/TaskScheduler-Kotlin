@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class TaskRepoModule {
+abstract class Injector {
     @Binds
     abstract fun provideTaskRepo(taskRepoImpl: TaskRepoImplement): TaskRepository
 }

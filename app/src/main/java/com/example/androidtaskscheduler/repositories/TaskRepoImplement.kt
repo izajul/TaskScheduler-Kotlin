@@ -10,22 +10,22 @@ class TaskRepoImplement
 @Inject constructor(private val taskDAO: TaskDAO) : TaskRepository {
 
     override fun getTaskById(id: String): Flowable<TaskModel> {
-        TODO("Not yet implemented")
+        return taskDAO.getTaskById(id)
     }
 
     override fun getAllTasks(): Flowable<List<TaskModel>> {
-        TODO("Not yet implemented")
+        return taskDAO.getAllTasks()
     }
 
     override fun insertUser(task: TaskModel): Completable {
-        TODO("Not yet implemented")
+        return taskDAO.insertUser(task)
     }
 
     override fun delete(task: TaskModel): Completable {
-        TODO("Not yet implemented")
+        return taskDAO.delete(task)
     }
 
     override fun update(task: TaskModel): Completable {
-        TODO("Not yet implemented")
+        return taskDAO.update(task)
     }
 }
