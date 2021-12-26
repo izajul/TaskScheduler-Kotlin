@@ -7,12 +7,14 @@ import java.util.*
 
 @Entity(tableName = "tasks_table")
 data class TaskModel(
+    @ColumnInfo(name = "name")
+    var taskName: String,
     @ColumnInfo(name = "package")
     var packageName: String,
     @ColumnInfo(name = "done_status")
     var doneStatus: Boolean,
     @ColumnInfo(name = "schedule_status")
-    var status: Boolean,
+    var scheduleStatus: Boolean,
     var time: String
 ) {
     @PrimaryKey(autoGenerate = true)

@@ -24,16 +24,10 @@ class SchedulerListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-
-        holder.binding.scheduleUpdateBtn.setOnClickListener {
-            listener.onUpdate(TaskModel("",false,false,""))
-        }
-        return
-
         val data = list[position]
         val view = holder.binding
 
-        view.packageNameTV.text = data.packageName
+        view.packageNameTV.text = data.taskName
         view.timeTV.text = if (data.time.isNotEmpty())
             Functions.getFormattedDate(data.time, "hh:mm a, dd MMM yy")
         else ""
@@ -53,12 +47,9 @@ class SchedulerListAdapter(
         view.scheduleDeleteBtn.setOnClickListener {
             listener.onDelete(data)
         }
-
-//        holder.binding
-
     }
 
     override fun getItemCount(): Int {
-        return 10 //list.size
+        return list.size
     }
 }

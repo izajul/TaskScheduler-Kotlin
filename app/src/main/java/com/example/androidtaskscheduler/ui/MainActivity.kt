@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.androidtaskscheduler.R
 import com.example.androidtaskscheduler.adapter.SchedulerListAdapter
 import com.example.androidtaskscheduler.databinding.ActivityMainBinding
 import com.example.androidtaskscheduler.models.TaskModel
@@ -48,6 +49,12 @@ class MainActivity : AppCompatActivity(), AdapterCallBack<TaskModel> {
             adapter = mAdapter
         }
 
+        binding.fab.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.root_container, FragmentAddTask.newInstance()).addToBackStack("")
+                .commit()
+        }
+
         getTaskList()
     }
 
@@ -60,7 +67,7 @@ class MainActivity : AppCompatActivity(), AdapterCallBack<TaskModel> {
                     Log.d(TAG, "getTaskList: ${list.size}")
                     mList.clear()
                     mList.addAll(list)
-                    // updateUI()
+                     updateUI()
                 },
                 { err ->
                     Log.e(TAG, "getTaskList: ${err.message}")
@@ -87,11 +94,11 @@ class MainActivity : AppCompatActivity(), AdapterCallBack<TaskModel> {
 
     override fun onUpdate(item: TaskModel) {
         Log.d(TAG, "onUpdate: Clicking for update")
-        DatePickerDialog(object : DialogCallBack{
+        DatePickerDialog(object : DialogCallBack {
             override fun onSelect(date: Any) {
                 super.onSelect(date)
                 Log.d(TAG, "onSelect: $date")
-                TimePickDialog(object : DialogCallBack{
+                TimePickDialog(object : DialogCallBack {
                     override fun onSelect(time: Any) {
                         super.onSelect(time)
                         val dateTime = "$date $time:00"
@@ -99,7 +106,7 @@ class MainActivity : AppCompatActivity(), AdapterCallBack<TaskModel> {
                         item.time = dateTime
                         updateTime(item)
                     }
-                }).show(supportFragmentManager,"timePicker")
+                }).show(supportFragmentManager, "timePicker")
             }
         }).show(supportFragmentManager, "datePicker")
     }
@@ -109,12 +116,12 @@ class MainActivity : AppCompatActivity(), AdapterCallBack<TaskModel> {
             viewModel.update(item)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.d(TAG, "updateTime: done")
-            },{
-                Log.e(TAG, "updateTime: failed")
-            }
-            )
+                .subscribe({
+                    Log.d(TAG, "updateTime: done")
+                }, {
+                    Log.e(TAG, "updateTime: failed")
+                }
+                )
         )
     }
 
