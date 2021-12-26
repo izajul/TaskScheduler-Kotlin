@@ -23,11 +23,12 @@ class AlarmReceiver : BroadcastReceiver() {
         intentService.putExtra(TASKNAME,intent.getStringExtra(TASKNAME))
         intentService.putExtra(PACKAGENAME,intent.getStringExtra(PACKAGENAME))
         intentService.putExtra(SCHEDULEID,intent.getIntExtra(SCHEDULEID,0))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        context.startService(intentService)
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intentService)
         } else {
             context.startService(intentService)
-        }
+        }*/
     }
 
     private fun startRescheduleAlarmsService(context: Context) {

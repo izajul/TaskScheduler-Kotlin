@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_MUTABLE
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
@@ -74,15 +75,13 @@ class AlarmService : Service() {
 
         val startIntent = pkgName?.let { packageManager.getLaunchIntentForPackage(it) }
         if (startIntent != null) {
-            // We found the activity now start the activity
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             try {
-                application.startActivity(intent)
+                startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(startIntent)
+                Log.e(TAG, "onStartCommand: $taskName is started")
             }catch (e:Exception){
-                Log.e(TAG, "onStartCommand: err ", )
+                Log.e(TAG, "onStartCommand: err $taskName not Starting ", e)
             }
-
-            Log.e(TAG, "onStartCommand: $taskName is started")
         } else {
             Log.e(TAG, "onStartCommand: $taskName is starting failed")
         }
@@ -95,7 +94,12 @@ class AlarmService : Service() {
             .build()
 
 
-        startForeground(1, notification)
+        val nm =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        nm.notify((100..999).random(),notification)
+
+
+//        startForeground(1, notification)
 
         return START_NOT_STICKY
     }
