@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:text="Package Name"/>
+                android:text="Task Name"/>
             <TextView
                 android:id="@+id/timeTV"
                 android:layout_width="wrap_content"
@@ -36,6 +36,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/scheduleStartStopBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:backgroundTint="#2196F3"
+                android:paddingHorizontal="5dp"
+                android:paddingVertical="0dp"
+                android:textAllCaps="false"
+                android:text="Start Schedule"/>
 
             <Button
                 android:id="@+id/scheduleUpdateBtn"

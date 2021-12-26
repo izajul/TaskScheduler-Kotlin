@@ -88,8 +88,32 @@ class MainActivity : AppCompatActivity(), AdapterCallBack<TaskModel> {
         super.onStop()
     }
 
+    override fun onSet(item: TaskModel) {
+        disposer.add(
+            viewModel.updateSchedule(item)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d(TAG, "delete: done")
+                }, {
+                    Log.e(TAG, "delete: failed")
+                }
+                )
+        )
+    }
+
     override fun onDelete(item: TaskModel) {
-        TODO("Not yet implemented")
+        disposer.add(
+            viewModel.delete(item)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    Log.d(TAG, "delete: done")
+                }, {
+                    Log.e(TAG, "delete: failed")
+                }
+                )
+        )
     }
 
     override fun onUpdate(item: TaskModel) {

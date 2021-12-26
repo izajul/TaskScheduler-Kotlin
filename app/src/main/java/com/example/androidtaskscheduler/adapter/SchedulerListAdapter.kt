@@ -47,6 +47,17 @@ class SchedulerListAdapter(
         view.scheduleDeleteBtn.setOnClickListener {
             listener.onDelete(data)
         }
+
+        view.scheduleStartStopBtn.apply {
+            text = if (data.scheduleStatus) {
+                "Stop Schedule"
+            }else {
+                "Start Schedule"
+            }
+            setOnClickListener {
+                listener.onSet(data)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
