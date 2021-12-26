@@ -54,6 +54,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:backgroundTint="@color/black"
                 android:paddingHorizontal="5dp"
+                android:textColor="@color/white"
                 android:paddingVertical="0dp"
                 android:textAllCaps="false"
                 android:text="Change Time"/>

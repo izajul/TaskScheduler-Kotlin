@@ -25,7 +25,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 import android.content.Intent
 import com.example.androidtaskscheduler.models.PackageModel
+import com.example.androidtaskscheduler.util.Functions
 import com.example.androidtaskscheduler.util.Functions.visibilityStatus
+import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.*
 
 
@@ -85,15 +87,15 @@ class FragmentAddTask : Fragment(), AdapterCallBack<PackageModel> {
 
         /// Using Coroutine Scope
         CoroutineScope(Dispatchers.IO).launch {
-            for (pkg in pkgAppsList){
+            for (pkg in pkgAppsList) {
                 val name = pkg.activityInfo.loadLabel(pm)
                 val pkgName = pkg.activityInfo.packageName
                 val img = pkg.activityInfo.loadIcon(pm)
-                if (!checkIfAlreadyHave(pkgName)){
-                    mList.add(PackageModel(name.toString(),pkgName,img))
+                if (!checkIfAlreadyHave(pkgName)) {
+                    mList.add(PackageModel(name.toString(), pkgName, img))
                 }
             }
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 updateUI()
             }
         }
@@ -108,9 +110,9 @@ class FragmentAddTask : Fragment(), AdapterCallBack<PackageModel> {
         binding.listRc.visibilityStatus(mList.isNotEmpty())
     }
 
-    private fun checkIfAlreadyHave(pkgName:String):Boolean{
+    private fun checkIfAlreadyHave(pkgName: String): Boolean {
         var boolean = false
-        for (task in mTaskList){
+        for (task in mTaskList) {
             if (pkgName == task.packageName) {
                 boolean = true
                 break
@@ -118,7 +120,6 @@ class FragmentAddTask : Fragment(), AdapterCallBack<PackageModel> {
         }
         return boolean
     }
-
 
     override fun onSet(item: PackageModel) {
         super.onSet(item)
@@ -140,8 +141,21 @@ class FragmentAddTask : Fragment(), AdapterCallBack<PackageModel> {
     }
 
     private fun addTask(data: PackageModel, dateTime: String) {
+        val task = TaskModel(
+            data.name,
+            data.packageName,
+            doneStatus = false,
+            scheduleStatus = true,
+            dateTime
+        )
+
+        if (checkTaskIsExist(task)){
+            Toast.makeText(requireContext(),"This Time Schedule Already Exist, Please Set Different",Toast.LENGTH_LONG).show()
+            return
+        }
+
         disposer.add(
-            viewModel.addNew(TaskModel(data.name,data.packageName,doneStatus = false, scheduleStatus = false, dateTime))
+            viewModel.addNew(task)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -150,12 +164,25 @@ class FragmentAddTask : Fragment(), AdapterCallBack<PackageModel> {
                         Log.e(TAG, "addTask: adding Failed", it)
                         Toast.makeText(
                             requireContext(),
-                            "Adding Failed!",
+                            "Adding Failed! ${it.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }
                 )
         )
+    }
+
+    private fun checkTaskIsExist(task: TaskModel): Boolean {
+        var isTimeMatched = false
+        for (item in mTaskList) {
+            if (Functions.getDateFromString(item.time)
+                    .compareTo(Functions.getDateFromString(task.time)) == 0
+            ){
+                isTimeMatched = true
+                break
+            }
+        }
+        return isTimeMatched
     }
 
     override fun onPause() {

@@ -9,7 +9,7 @@ import javax.inject.Inject
 class TaskRepoImplement
 @Inject constructor(private val taskDAO: TaskDAO) : TaskRepository {
 
-    override fun getTaskById(id: String): Flowable<TaskModel> {
+    override fun getTaskById(id: Int): Flowable<TaskModel> {
         return taskDAO.getTaskById(id)
     }
 

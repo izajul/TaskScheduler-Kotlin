@@ -30,6 +30,17 @@ object Functions {
         return dateT
     }
 
+    @SuppressLint("SimpleDateFormat")
+    fun getDateFromString(dateStr: String): Date{
+        var date = try {
+            val current = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+            current.parse(dateStr)
+        } catch (e:java.lang.Exception){
+            Date()
+        }
+        return date
+    }
+
     fun View.visibilityStatus(status: Boolean){
         this.visibility = if (status) View.VISIBLE else View.GONE
     }

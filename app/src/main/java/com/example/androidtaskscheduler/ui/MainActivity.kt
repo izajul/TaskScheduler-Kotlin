@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(), AdapterCallBack<TaskModel> {
                     Log.d(TAG, "getTaskList: ${list.size}")
                     mList.clear()
                     mList.addAll(list)
-                     updateUI()
+                    updateUI()
                 },
                 { err ->
                     Log.e(TAG, "getTaskList: ${err.message}")

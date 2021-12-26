@@ -8,8 +8,8 @@ import io.reactivex.rxjava3.core.Flowable
 @Dao
 interface TaskDAO {
 
-    @Query("SELECT * FROM tasks_table WHERE id = :id")
-    fun getTaskById(id: String): Flowable<TaskModel>
+    @Query("SELECT * FROM tasks_table WHERE schedule_id = :id")
+    fun getTaskById(id: Int): Flowable<TaskModel>
 
     @Query("SELECT * FROM tasks_table")
     fun getAllTasks(): Flowable<List<TaskModel>>

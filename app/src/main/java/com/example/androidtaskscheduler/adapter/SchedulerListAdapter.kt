@@ -37,7 +37,7 @@ class SchedulerListAdapter(
                 isEnabled = false
                 text = "Task Completed"
             }
-            view.scheduleUpdateBtn.visibilityStatus(false)
+            view.scheduleStartStopBtn.visibilityStatus(false)
         }
 
         view.scheduleUpdateBtn.setOnClickListener {

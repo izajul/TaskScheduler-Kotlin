@@ -2,14 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.androidtaskscheduler">
 
-<!--    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>-->
-
+    <!-- <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/> -->
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
         </intent>
     </queries>
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -18,6 +19,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidTaskScheduler">
+        <receiver
+            android:name=".alarm.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <service
+            android:name=".alarm.AlarmService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".alarm.RescheduleAlarmService"  />
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
