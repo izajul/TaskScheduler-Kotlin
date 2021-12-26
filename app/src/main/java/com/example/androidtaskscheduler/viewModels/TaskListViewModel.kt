@@ -32,7 +32,10 @@ class TaskListViewModel
 
     fun getTaskById(id: Int) = taskRepo.getTaskById(id)
 
-    fun delete(task: TaskModel) = taskRepo.delete(task)
+    fun delete(task: TaskModel):Completable {
+        if (task.scheduleStatus) task.stopSchedule(context)
+        return taskRepo.delete(task)
+    }
 
     fun update(task: TaskModel) = taskRepo.update(task)
 
